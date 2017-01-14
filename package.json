@@ -1,0 +1,27 @@
+{
+  "name": "Open-Issues-Github-",
+  "version": "1.0.0",
+  "description": "A project that allows a user to input any Github repo link and view number of open issues",
+  "main": "server.js",
+  "scripts": {
+    "start": "./node_modules/nodemon/bin/nodemon.js server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JudyVue/Open-Issues-Github-.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JudyVue/Open-Issues-Github-/issues"
+  },
+  "homepage": "https://github.com/JudyVue/Open-Issues-Github-#readme",
+  "dependencies": {
+    "dotenv": "^4.0.0",
+    "express": "^4.14.0",
+    "express-request-proxy": "^2.0.0",
+    "nodemon": "^1.11.0"
+  }
+}
