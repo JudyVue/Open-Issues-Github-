@@ -2,7 +2,11 @@
   'use strict';
   let main = {};
 
-  // issues.fetchData(helpers.setLocalStorage);
+  $('button').click(() => {
+    issues.data = [];
+    issueView.getInputURL(helpers.parseInputURL);
+    issues.fetchData(helpers.setLocalStorage);
+  });
 
 
   module.main = main;

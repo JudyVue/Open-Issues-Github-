@@ -2,12 +2,12 @@
 
   let issueView = {};
 
-  issueView.getInputURL = function(){
+  issueView.getInputURL = function(callback){
     let url = $('input').val();
-    
+    callback(url, null);
   };
 
-  issueView.getInputURL();
+
 
 
   module.issueView = issueView;
