@@ -5,7 +5,7 @@
 
   issues.fetchData = function(){
     $.when(
-      $.get('/github/users/JudyVue')
+      $.get('/github/issues')
       .done((data) => {
         console.log(data);
       })
