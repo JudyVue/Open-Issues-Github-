@@ -5,7 +5,7 @@
 
   issues.fetchData = function(){
     $.when(
-      $.get('/github/issues')
+      $.get('/github/repos/Automattic/mongoose/issues')
       .done((data) => {
         console.log(data);
       })
