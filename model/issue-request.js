@@ -15,26 +15,27 @@
     this.id = opts.id;
   }
 
-  //https://github.com/github/hub/issues/1382"
-
   let issues = {};
 
   issues.data = [];
 
-  issues.fetchData = function(){
+
+
+
+
+  issues.fetchData = function(callback){
     $.when(
-      $.get('/github/repos/github/hub/issues')
+      $.get('/github/repos/Automattic/mongoose/issues')
       .done((data) => {
-        console.log(data);
         data.forEach((element) => {
           let issue = new RepoIssue(element);
           issues.data.push(issue);
         });
-        console.log('my issues array', issues.data);
+        callback(issues.data);
       })
     );
   };
-  issues.fetchData();
+
 
   module.issues = issues;
 })(window);
