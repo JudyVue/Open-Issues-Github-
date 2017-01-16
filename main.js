@@ -2,7 +2,7 @@
   'use strict';
   let main = {};
 
-  issues.fetchData(helpers.setLocalStorage);
+  // issues.fetchData(helpers.setLocalStorage);
 
 
   module.main = main;

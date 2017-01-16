@@ -18,20 +18,26 @@
   let issues = {};
 
   issues.data = [];
+  issues.owner;
+  issues.repo;
 
 
-
+  issues.success = true;
 
 
   issues.fetchData = function(callback){
     $.when(
-      $.get('/github/repos/Automattic/mongoose/issues')
+      $.get(`/github/repos/${issues.owner}/${issues.repo}/issues`)
       .done((data) => {
         data.forEach((element) => {
           let issue = new RepoIssue(element);
           issues.data.push(issue);
         });
         callback(issues.data);
+      })
+      .fail(() => {
+        issues.success = false;
+        console.log('error handling request');
       })
     );
   };
