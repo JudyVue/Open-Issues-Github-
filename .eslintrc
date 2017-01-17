@@ -9,6 +9,7 @@
     "jquery": true
   },
   "rules": {
+    "no-unused-vars": ["error", {"vars": "local", "args": "after-used"}],
     "no-console": "off",
     "indent": [ "error", 2 ],
     "semi": ["error", "always"],

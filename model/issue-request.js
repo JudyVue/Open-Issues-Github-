@@ -1,6 +1,8 @@
 (function(module){
   'use strict';
 
+//this comment set up here to turn off eslint warnings about unused vars
+/*global issues issueView helpers:true*/
   function RepoIssue (opts){
     this.repoOwner = opts.html_url.split('/')[3];
     this.repoName = opts.html_url.split('/')[4];
