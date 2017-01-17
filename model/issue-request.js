@@ -3,6 +3,8 @@
 
 //this comment set up here to turn off eslint warnings about unused vars
 /*global issues issueView helpers:true*/
+
+  //set up constructor for easier use of data
   function RepoIssue (opts){
     this.repoOwner = opts.html_url.split('/')[3];
     this.repoName = opts.html_url.split('/')[4];
@@ -18,14 +20,16 @@
     this.id = opts.id;
   }
 
+  //set this as property on window
   let issues = {};
+  module.issues = issues;
   issues.success = true;
 
   issues.data = [];
   issues.owner;
   issues.repo;
 
-
+  //making API get request
   issues.fetchData = function(callback, callback2){
     $.when(
       $.get(`/github/repos/${issues.owner}/${issues.repo}/issues`)
@@ -35,8 +39,8 @@
           issues.data.push(issue);
         });
         callback(issues.data, issueView.alertIfNoIssues);
-        callback2(null);
         console.log(issues.data);
+        callback2(null);
 
       })
       .fail(() => {
@@ -48,5 +52,5 @@
   };
 
 
-  module.issues = issues;
+
 })(window);
