@@ -8,7 +8,8 @@
   $('button').click(() => {
     issues.data = [];
     issueView.getInputURL(helpers.parseInputURL);
-    issues.fetchData(helpers.setLocalStorage);
+    issues.fetchData(helpers.setLocalStorage, issueView.appendData);
+
   });
 
 
