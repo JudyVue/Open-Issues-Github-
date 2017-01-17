@@ -10,23 +10,12 @@
         <td>{{today}} issues opened the last 24 hours</td>
       </tr>
       <tr>
-        <td>{{less}} issues opened last 7 days ago</td>
+        <td>{{less}} issues opened in the past 7 days ago</td>
       </tr>
       <tr>
-        <td>{{more}} issues opened more 7 days ago</td>
+        <td>{{more}} issues opened more than 7 days ago</td>
       </tr>
     </script>
-    <script class="seven-day-template" type="text/x-handelbars-template">
-      <tr>
-        <td>{{numIssues}} issues opened last 7 days ago</td>
-      </tr>
-    </script>
-  </script>
-  <script class="many-day-template" type="text/x-handelbars-template">
-    <tr>
-      <td>{{numIssues}} issues opened more 7 days ago</td>
-    </tr>
-  </script>
   </head>
   <body>
     <h1>Github Issues Finder</h1>
@@ -44,8 +33,6 @@
   </div>
 
   <table class="issue-list">
-
-
   </table>
 
   <!-- third party scripts -->

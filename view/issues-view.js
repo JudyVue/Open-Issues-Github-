@@ -9,17 +9,12 @@
   };
 
   issueView.render = function(templateid, data){
-    console.log('hit render?');
     let template = Handlebars.compile($(templateid).text());
     return template(data);
   };
 
   issueView.appendData = function(section, compiledObj){
     $(section).append(compiledObj);
-
-    // issues.data.forEach((element) => {
-    //   let renderedIssue = issueView.render('.issue-template', element);
-    // });
   };
 
   issueView.alertIfNoIssues = function(){
