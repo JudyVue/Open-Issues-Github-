@@ -35,7 +35,7 @@
           let issue = new RepoIssue(element);
           issues.data.push(issue);
         });
-        callback(issues.data);
+        callback(issues.data, issueView.alertIfNoIssues);
       })
       .fail(() => {
         issues.success = false;

@@ -13,6 +13,12 @@
     return template(data);
   };
 
+  issueView.alertIfNoIssues = function(){
+    if(!issues.data.length){
+      alert('This repo has no issues because it had loving parents.');
+    }
+  };
+
 
   module.issueView = issueView;
 })(window);
