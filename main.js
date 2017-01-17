@@ -8,7 +8,10 @@
   $('button').click(() => {
     issues.data = [];
     issueView.getInputURL(helpers.parseInputURL);
-    issues.fetchData(helpers.setLocalStorage, issueView.appendData);
+    issues.fetchData(helpers.setLocalStorage, () => {
+      // helpers.getNumberOfIssues('today', '.issue-template', issueView.appendData);
+      helpers.getNumberOfIssues(7, '.issue-template', issueView.appendData);
+    });
 
   });
 

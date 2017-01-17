@@ -35,7 +35,9 @@
           issues.data.push(issue);
         });
         callback(issues.data, issueView.alertIfNoIssues);
-        callback2('.issue-list');
+        callback2(null);
+        console.log(issues.data);
+
       })
       .fail(() => {
         issues.success = false;

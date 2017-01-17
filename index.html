@@ -6,14 +6,27 @@
     <link rel="stylesheet" href="/css/issues.css">
 
     <script class="issue-template" type="text/x-handelbars-template">
-    <table>
       <tr>
-        <td>{{repoOwner}}</td>
-        <td>{{repoName}}</td>
-        <td>{{daysAgo}}</td>
+        <td>{{today}} issues opened the last 24 hours</td>
       </tr>
-    </table>
+      <tr>
+        <td>{{less}} issues opened last 7 days ago</td>
+      </tr>
+      <tr>
+        <td>{{more}} issues opened more 7 days ago</td>
+      </tr>
     </script>
+    <script class="seven-day-template" type="text/x-handelbars-template">
+      <tr>
+        <td>{{numIssues}} issues opened last 7 days ago</td>
+      </tr>
+    </script>
+  </script>
+  <script class="many-day-template" type="text/x-handelbars-template">
+    <tr>
+      <td>{{numIssues}} issues opened more 7 days ago</td>
+    </tr>
+  </script>
   </head>
   <body>
     <h1>Github Issues Finder</h1>
@@ -30,10 +43,10 @@
     </h5>
   </div>
 
-  <article class="issue-list">
+  <table class="issue-list">
 
 
-  </article>
+  </table>
 
   <!-- third party scripts -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>

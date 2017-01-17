@@ -14,13 +14,12 @@
     return template(data);
   };
 
-  issueView.appendData = function(section){
-    console.log('hit appendData?');
-    issues.data.forEach((element) => {
-      console.log(element);
-      let renderedIssue = issueView.render('.issue-template', element);
-      $(section).append(renderedIssue);
-    });
+  issueView.appendData = function(section, compiledObj){
+    $(section).append(compiledObj);
+
+    // issues.data.forEach((element) => {
+    //   let renderedIssue = issueView.render('.issue-template', element);
+    // });
   };
 
   issueView.alertIfNoIssues = function(){
