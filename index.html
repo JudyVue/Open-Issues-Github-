@@ -2,7 +2,8 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Github Open Issues</title>
     <link rel="stylesheet" href="/css/issues.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
@@ -19,7 +20,7 @@
     </script>
   </head>
   <body>
-    <h1>Github Issues Finder</h1>
+    <h1>Github Open Issues Finder</h1>
 
   <div class="form-group">
     <label for="url-input" class="col-2 col-form-label">Copy and paste a Github repo link here</label>
@@ -28,9 +29,12 @@
     </section>
 
     <button type="submit" class="btn btn-primary">Get Issues</button>
-    <h5>
-      You Must Type in a valid Github Repo URL
-    </h5>
+    <h4 class="failure text-danger">
+      Request did not go through. Try a full Github URL in the form of https://github.com/<em>user</em>/<em>repo</em>
+    </h4>
+    <h4 class="none text-info">
+      This repo has no issues because it had loving parents.
+    </h4>
   </div>
 
   <table class="issue-list">

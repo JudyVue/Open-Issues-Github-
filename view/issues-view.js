@@ -6,6 +6,7 @@
   issueView.getInputURL = function(callback){
     let url = $('input').val();
     callback(url, null);
+
   };
 
   issueView.render = function(templateid, data){
@@ -17,9 +18,19 @@
     $(section).append(compiledObj);
   };
 
-  issueView.alertIfNoIssues = function(){
+  issueView.noIssuesAlert = function(){
     if(!issues.data.length){
-      alert('This repo has no issues because it had loving parents.');
+      $('.issue-list').hide();
+      $('.none').show();
+      $('h4').not('.none').hide();
+    }
+  };
+
+  issueView.badRequest = function(boolean){
+    if(!boolean){
+      $('.issue-list').hide();
+      $('.failure').show();
+      $('h4').not('.failure').hide();
     }
   };
 

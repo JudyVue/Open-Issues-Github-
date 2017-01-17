@@ -30,7 +30,7 @@
   issues.repo;
 
   //making API get request
-  issues.fetchData = function(callback, callback2){
+  issues.fetchData = function(callback, callback2, failure){
     $.when(
       $.get(`/github/repos/${issues.owner}/${issues.repo}/issues`)
       .done((data) => {
@@ -38,15 +38,14 @@
           let issue = new RepoIssue(element);
           issues.data.push(issue);
         });
-        callback(issues.data, issueView.alertIfNoIssues);
+        callback(issues.data, issueView.noIssuesAlert);
         console.log(issues.data);
         callback2(null);
 
       })
       .fail(() => {
         issues.success = false;
-        alert('Request did not go through. Try a full Github URL in the form of https://github.com/<user>/<repo>');
-        console.log('error handling request');
+        failure(issues.success);
       })
     );
   };
