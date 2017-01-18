@@ -2,11 +2,59 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Github Open Issues</title>
+    <link rel="stylesheet" href="/css/issues.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <script class="issue-template" type="text/x-handlebars-template">
+    <table>
+      <tr>
+        <td>{{today}} issues opened the last 24 hours</td>
+      </tr>
+      <tr>
+        <td>{{less}} issues opened in the past 7 days ago</td>
+      </tr>
+      <tr>
+        <td>{{more}} issues opened more than 7 days ago</td>
+      </tr>
+    </table>
+    </script>
   </head>
   <body>
+    <h1>Github Open Issues Finder</h1>
 
+  <div class="form-group">
+    <form class="form-group">
+      <label for="url-input" class="col-2 col-form-label">Copy and paste a Github repo link here</label>
+      <input type="text" class="form-control" placeholder="Github repo URL">
+      <button type="submit" class="btn btn-primary btn-sm">Get Issues</button>
+      <h4 class="failure text-danger">
+      Request did not go through. Try a full Github URL in the form of https://github.com/<em>user</em>/<em>repo</em>
+      </h4>
+      <h4 class="none text-info">
+      This repo has no issues because it had loving parents.
+      </h4>
+    </form>
+  </div>
+
+  <article class="issue-list">
+  </article>
+
+  <!-- third party scripts -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.4/handlebars.js"></script>
+
+  <!-- model script -->
+  <script src="/lib/helpers.js"></script>
+  <script src="/model/issue-request.js"></script>
+
+  <script src="/view/issues-view.js"></script>
+
+  <!-- main module -->
+  <script src="/main.js"></script>
+
+
   </body>
 </html>

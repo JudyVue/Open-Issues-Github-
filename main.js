@@ -9,6 +9,8 @@
     issues.fetchData(helpers.setLocalStorage, () => {
       helpers.getNumberOfIssues(daysPassed, '.issue-template', issueView.appendData);
     }, issueView.badRequest);
-
   });
+
+
+
 })();
