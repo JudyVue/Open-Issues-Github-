@@ -22,11 +22,14 @@
   issues.data = [];
   issues.owner;
   issues.repo;
+  issues.pageNumber = 1;
+  issues.perPage = 100;
 
   issues.fetchData = function(callback, callback2, failure){
     $.when(
-      $.get(`/github/repos/${issues.owner}/${issues.repo}/issues`)
+      $.get(`/github/repos/${issues.owner}/${issues.repo}/issues?page=${issues.pageNumber}&per_page=${issues.perPage}`, null)
       .done((data) => {
+        console.log(data);
         data.forEach((element) => {
           let issue = new RepoIssue(element);
           issues.data.push(issue);

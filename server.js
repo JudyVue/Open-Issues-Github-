@@ -13,7 +13,9 @@ let proxy = (req, res) => {
   (requestProxy({
     url: `${githubURL}${req.params[0]}`,
     headers: {Authorization: `token ${process.env.GITHUB_TOKEN}`},
-  }))(req, res);
+  },
+console.log('hahahahaha',res))
+)(req, res);
 };
 
 app.get('/github/*', proxy);
