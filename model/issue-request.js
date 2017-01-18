@@ -29,6 +29,7 @@
   issues.owner;
   issues.repo;
 
+
   //making API get request
   issues.fetchData = function(callback, callback2, failure){
     $.when(
