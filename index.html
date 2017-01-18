@@ -7,7 +7,9 @@
     <link rel="stylesheet" href="/css/issues.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
-    <script class="issue-template" type="text/x-handelbars-template">
+    <script class="issue-template" type="text/x-handlebars-template">
+      <h1>{{repoName}}</h1>
+    <table>
       <tr>
         <td>{{today}} issues opened the last 24 hours</td>
       </tr>
@@ -17,6 +19,7 @@
       <tr>
         <td>{{more}} issues opened more than 7 days ago</td>
       </tr>
+    </table>
     </script>
   </head>
   <body>
@@ -36,8 +39,8 @@
     </form>
   </div>
 
-  <table class="issue-list">
-  </table>
+  <article class="issue-list">
+  </article>
 
   <!-- third party scripts -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>

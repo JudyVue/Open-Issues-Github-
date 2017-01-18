@@ -21,6 +21,7 @@
     //Make Github API request now that we have a user name and repo name from the input field, set the returned data to local storage, calculate #issues and render to the page, OR show the bad request msg if user did not input valid URL
     issues.fetchData(helpers.setLocalStorage, () => {
       helpers.getNumberOfIssues(daysPassed, '.issue-template', issueView.appendData);
+      issueView.appendData('.issue-list', issueView.compileData('.issue-template', issues.data));
     }, issueView.badRequest);
 
   });
