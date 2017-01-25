@@ -4,6 +4,7 @@
   /*global issues issueView helpers:true*/
   'use strict';
 
+  issues.getIt();
   let daysPassed = 7;
   $('form').submit((e) => {
     e.preventDefault();
@@ -14,9 +15,11 @@
     issueView.getInputURL(helpers.parseInputURL);
 
 
-    issues.fetchData(helpers.setLocalStorage, () => {
-      helpers.getNumberOfIssues(daysPassed, '.issue-template', issueView.appendData);
-    }, issueView.badRequest);
+    // issues.fetchData(1);
+
+    // issues.fetchData(helpers.setLocalStorage, () => {
+    //   helpers.getNumberOfIssues(daysPassed, '.issue-template', issueView.appendData);
+    // }, issueView.badRequest);
 
   });
 
