@@ -25,37 +25,44 @@
   //set this as property on window
   let issues = {};
   module.issues = issues;
-  issues.success = true;
 
   issues.data = [];
   issues.owner;
   issues.repo;
 
-  issues.getIt = function(){
+  issues.getIt = function(num){
     $.ajax({
       type: 'GET',
-      url:`/github/repos/nodejs/node/issues?page=1&per_page=100`,
-      success: function(data, textStatus, request){
+      url: `/github/repos/badOwner/Code301Project/issues?page=${num}&per_page=100`,
+      success: function(data, status, request){
+        console.log('what?', issues.data);
+        console.log(issues.data.length, 'what is this');
+
+        data.forEach((element) => {
+          let issue = new RepoIssue(element);
+          issues.data.push(issue);
+        });
 
         let links = helpers.parseLinkHeader(request);
-        if(links !== null){
-          while(links.rel === 'next'){
-            this.url = links.url;
-            console.log('current url', this.url);
-            issues.getIt();
-          }
+        if(links !== null && links.rel !== 'last'){
+          console.log('what is num?', num);
+          num++;
+          issues.getIt(num);
+
         }
         return;
       },
-      error: function (request, textStatus, errorThrown) {
-        console.log(errorThrown);
+      error: function (request, failure, errorThrown) {
+
+        issueView.badRequest();
+        console.log(request, failure, errorThrown);
       },
     });
   };
 
   issues.fetchData = function(num){
     $.when(
-      $.get(`/github/repos/${issues.owner}/${issues.repo}/issues?page=${num}&per_page=100`)
+      $.get(`/github/repos/Automattic/mongoose/issues?page=${num}&per_page=100`)
       .done((data) => {
         if(data.length){
           data.forEach((element) => {

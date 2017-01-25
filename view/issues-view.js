@@ -33,12 +33,11 @@
     }
   };
 
-  issueView.badRequest = function(boolean){
-    if(!boolean){
-      $('.issue-list').hide();
-      $('.failure').show();
-      $('h4').not('.failure').hide();
-    }
+  issueView.badRequest = function(){
+    console.log('hit here?');
+    $('.issue-list').hide();
+    $('.failure').show();
+    $('h4').not('.failure').hide();
   };
 
   issueView.compileData = function(template, data){

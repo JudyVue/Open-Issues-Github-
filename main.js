@@ -4,7 +4,7 @@
   /*global issues issueView helpers:true*/
   'use strict';
 
-  issues.getIt();
+  // issues.getIt();
   let daysPassed = 7;
   $('form').submit((e) => {
     e.preventDefault();
