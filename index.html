@@ -31,7 +31,7 @@
       <input type="text" class="form-control" placeholder="Github repo URL">
       <button type="submit" class="btn btn-primary btn-sm">Get Issues</button>
       <h4 class="failure text-danger">
-      Request did not go through. Try a full Github URL in the form of https://github.com/<em>user</em>/<em>repo</em>
+      Request did not go through.<br></br>Confirm that your user and repo names are correct.<br></br>Try a full Github URL in the form of https://github.com/<em>user</em>/<em>repo</em>
       </h4>
       <h4 class="none text-info">
       This repo has no issues because it had loving parents.
@@ -42,16 +42,25 @@
   <article class="issue-list">
   </article>
 
+  <section id="container">
+
+  </section>
+
   <!-- third party scripts -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.4/handlebars.js"></script>
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <script src="https://code.highcharts.com/highcharts-more.js"></script>
+  <script src="https://code.highcharts.com/modules/exporting.js"></script>
 
-  <!-- model script -->
+  <!-- lib script -->
   <script src="/lib/helpers.js"></script>
+  <!-- model script -->
   <script src="/model/issue-request.js"></script>
-
+  <!-- view script -->
   <script src="/view/issues-view.js"></script>
+  <script src="/view/highchart.js"></script>
 
   <!-- main module -->
   <script src="/main.js"></script>

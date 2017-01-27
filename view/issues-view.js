@@ -1,7 +1,7 @@
 (function(module){
 
-//need this comment here so eslint will ignore 'unused vars'
-/*global issues issueView helpers Handlebars:true*/
+  //need this comment here so eslint will ignore 'unused vars'
+  /*global issues issueView helpers Handlebars:true*/
 
   //set this as property on window
   let issueView = {};
@@ -25,8 +25,9 @@
     $(section).append(compiledObj);
   };
 
-  issueView.noIssuesAlert = function(){
-    if(!issues.data.length){
+  issueView.noIssuesAlert = function(data, num){
+    if(!data.length && num === 1){
+      console.log('hit here??????');
       $('.issue-list').hide();
       $('.none').show();
       $('h4').not('.none').hide();

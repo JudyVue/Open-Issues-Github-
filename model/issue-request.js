@@ -17,6 +17,7 @@
     this.daysAgo = helpers.numberOfDaysAgo(this.dateCreated);
     this.repoURL = opts.repository_url,
     this.issueURL = opts.html_url,
+    this.labels = opts.labels,
     this.title = opts.title,
     this.body = opts.body,
     this.id = opts.id;
@@ -30,34 +31,34 @@
   issues.owner;
   issues.repo;
 
-  issues.getIt = function(num){
-    $.ajax({
-      type: 'GET',
-      url: `/github/repos/badOwner/Code301Project/issues?page=${num}&per_page=100`,
-      success: function(data, status, request){
-        console.log('what?', issues.data);
-        console.log(issues.data.length, 'what is this');
+  issues.getIt = function(num, callback){
+    if(num < 6){
+      $.ajax({
+        type: 'GET',
+        url: `/github/repos/${issues.owner}/${issues.repo}/issues?page=${num}&per_page=100`,
+        success: function(data, status, request){
+          issueView.noIssuesAlert(data, num);
 
-        data.forEach((element) => {
-          let issue = new RepoIssue(element);
-          issues.data.push(issue);
-        });
+          data.forEach((element) => {
+            let issue = new RepoIssue(element);
+            issues.data.push(issue);
+          });
 
-        let links = helpers.parseLinkHeader(request);
-        if(links !== null && links.rel !== 'last'){
-          console.log('what is num?', num);
-          num++;
-          issues.getIt(num);
+          let links = helpers.parseLinkHeader(request);
+          if(links !== null && links.rel !== 'last'){
+            num++;
+            callback && callback(issues.data);
+            issues.getIt(num, helpers.setLocalStorage);
+          }
 
-        }
-        return;
-      },
-      error: function (request, failure, errorThrown) {
+          return;
+        },
+        error: function (request, failure, errorThrown) {
+          issueView.badRequest();
+        },
+      });
 
-        issueView.badRequest();
-        console.log(request, failure, errorThrown);
-      },
-    });
+    }
   };
 
   issues.fetchData = function(num){
@@ -83,28 +84,6 @@
     );
   };
 
-
-  //making API get request
-  // issues.fetchData = function(callback, callback2, failure){
-  //   $.when(
-  //     $.get(`/github/repos/${issues.owner}/${issues.repo}/issues`)
-  //     .done((data) => {
-  //       data.forEach((element) => {
-  //         let issue = new RepoIssue(element);
-  //         issues.data.push(issue);
-  //       });
-  //       callback(issues.data, issueView.noIssuesAlert);
-  //
-  //       console.log(issues.data);
-  //       callback2(null);
-  //
-  //     })
-  //     .fail(() => {
-  //       issues.success = false;
-  //       failure(issues.success);
-  //     })
-  //   );
-  // };
 
 
 
