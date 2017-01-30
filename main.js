@@ -1,7 +1,7 @@
 (function(){
 
   //this comment set up here to turn off my eslint warnings about unused vars
-  /*global issues issueView helpers highChart:true*/
+  /*global issues issueView helpers highChart d3Chart:true*/
   'use strict';
 
 
@@ -16,8 +16,9 @@
 
     issueView.getInputURL(helpers.parseInputURL);
     issues.getIt(1, (data) => {
-      console.log(data, 'what are you?', data.length);
-      highChart.makeChart(data);
+      d3Chart.makeCircles(issues.data);
+      console.log(issues.data.length);
+
     });
 
 

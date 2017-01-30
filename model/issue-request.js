@@ -50,7 +50,6 @@
             callback && callback(issues.data);
             issues.getIt(num, helpers.setLocalStorage);
           }
-
           return;
         },
         error: function (request, failure, errorThrown) {
