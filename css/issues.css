@@ -6,6 +6,10 @@ circle {
   cursor: pointer;
 }
 
-svg {
-  border: dotted 2px orange;
+/*svg {
+  border: dotted 2px green;
+}*/
+
+#chart {
+  width: 100%;
 }

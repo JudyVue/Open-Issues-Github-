@@ -2,11 +2,11 @@
 
   /*global issues issueView helpers highChart d3:true*/
 
-  let width = 1000;
-  let height = 1000;
-  let translateX = 400;
-  let translateY = 450;
-  let scale = 40;
+  let width = 600;
+  let height = 800;
+  let translateX = 300;
+  let translateY = 300;
+  let scale = 30;
   let forceStrength = 0;
 
   let d3Chart = {};
@@ -46,7 +46,7 @@
 
   //make the circles
   d3Chart.makeCircles = function(data){
-    
+
     defs.selectAll('.user-pattern')
     .data(data)
     .enter().append('pattern')
