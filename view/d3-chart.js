@@ -13,26 +13,32 @@
   module.d3Chart = d3Chart;
 
 
+  let svg;
   //create the svg area on the DOM
-  let svg = d3.select('#chart')
-  .append('svg')
-  .attr('height', height)
-  .attr('width', width)
-  .append('g')
-  .attr('transform', `translate(${translateX}, ${translateY})`);
+  d3Chart.makeSVG = function (){
+    d3Chart.svg = d3.select('#chart')
+    .append('svg')
+    .attr('height', height)
+    .attr('width', width)
+    .append('g')
+    .attr('transform', `translate(${translateX}, ${translateY})`);
 
-  let defs = svg.append('defs');
+    d3Chart.defs = d3Chart.svg.append('defs');
+    d3Chart.radiusScale = d3.scaleSqrt().domain([1, 50]).range([10, 50]);
 
+  };
+
+  // let defs;
+  // defs = svg.append('defs');
 
   //scale the circles according to an arbitrarily set scale I set to the number of days the issue was created
-  let radiusScale = d3.scaleSqrt().domain([1, 50]).range([10, 50]);
 
   //simulation is a collection of forces about where we want our circles to go and how we want our circles to interact
   d3Chart.simulation = d3.forceSimulation()
   .force('x', d3.forceX(width / 2).strength(forceStrength)) //strength between 0-1
   .force('y', d3.forceY(height / 2).strength(forceStrength))
   .force('collide', d3.forceCollide((d) => {
-    return radiusScale(d.scale);
+    return d3Chart.radiusScale(d.scale);
   }));
 
   d3Chart.simulation.nodes;
@@ -54,7 +60,7 @@
 
 
     let circles;
-    defs.selectAll('.user-pattern')
+    d3Chart.defs.selectAll('.user-pattern')
     .data(data)
     .enter().append('pattern')
     .attr('class', 'user-pattern')
@@ -69,13 +75,13 @@
     .attr('xmlns:xlink', 'http://www.w3.org/1999/xlink')
     .attr('xlink:href', (d) => d.issueUserAvatarURL);
 
-    circles = svg.selectAll('.issue')
+    circles = d3Chart.svg.selectAll('.issue')
     .data(data)
     .enter().append('circle')
     .attr('class', 'issue')
     .attr('r', (d) => {
       d3Chart.addDataScaleProp(d);
-      return radiusScale(d.scale);
+      return d3Chart.radiusScale(d.scale);
     })
     .attr('fill', (d) => `url(#${d.issueUser})`)
     .on('click', (d) => {
@@ -98,10 +104,19 @@
   };
 
   d3Chart.removeStuff = function(){
-    console.log(svg.remove());
-    svg.remove();
+
+    d3Chart.svg.remove();
   };
 
+  let form = $('form');
 
+
+  d3Chart.updateData = function(data){
+    form.submit((e) => {
+      console.log('what the fuck is ging on?');
+      e.preventDefault();
+      return d3Chart.makeCircles(data);
+    });
+  };
 
 })(window);

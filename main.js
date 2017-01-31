@@ -4,26 +4,25 @@
   /*global issues issueView helpers highChart d3Chart:true*/
   'use strict';
 
+  $('form').submit((e) => {
 
-  function fetchAllAndMakeGraph(){
-    $('form').submit((e) => {
+    e.preventDefault();
+    $('h4').hide();
+    issues.data = [];
 
-      e.preventDefault();
-      $('h4').hide();
-      issues.data = [];
+    $('svg').remove();
+    d3Chart.makeSVG();
 
-      // d3Chart.removeStuff();
-      issueView.getInputURL(helpers.parseInputURL);
+    // d3Chart.removeStuff();
+    issueView.getInputURL(helpers.parseInputURL);
 
-      issues.getIt(1, (data) => {
-        helpers.setLocalStorage(data, (data) => {
-          d3Chart.makeCircles(data);
-        });
+    issues.getIt(1, (data) => {
+      helpers.setLocalStorage(data, (data) => {
+        d3Chart.makeCircles(data);
       });
-
     });
-  }
+  });
 
-  fetchAllAndMakeGraph();
+
 
 })();
