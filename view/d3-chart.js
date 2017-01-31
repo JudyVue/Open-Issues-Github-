@@ -7,7 +7,7 @@
   let translateX = 300;
   let translateY = 300;
   let scale = 30;
-  let forceStrength = 0;
+  let forceStrength = 0.001;
 
   let d3Chart = {};
   module.d3Chart = d3Chart;
@@ -28,12 +28,14 @@
   let radiusScale = d3.scaleSqrt().domain([1, 50]).range([10, 50]);
 
   //simulation is a collection of forces about where we want our circles to go and how we want our circles to interact
-  let simulation = d3.forceSimulation()
+  d3Chart.simulation = d3.forceSimulation()
   .force('x', d3.forceX(width / 2).strength(forceStrength)) //strength between 0-1
   .force('y', d3.forceY(height / 2).strength(forceStrength))
   .force('collide', d3.forceCollide((d) => {
     return radiusScale(d.scale);
   }));
+
+  d3Chart.simulation.nodes;
 
 
   //setting scale property so that circles can be sized according to if issue was created today, > 7 days ago, or > 7 days ago
@@ -47,6 +49,11 @@
   //make the circles
   d3Chart.makeCircles = function(data){
 
+
+    console.log('what is this?', data[0].repoOwner);
+
+
+    let circles;
     defs.selectAll('.user-pattern')
     .data(data)
     .enter().append('pattern')
@@ -59,9 +66,10 @@
     .attr('height', 1)
     .attr('width', 1)
     .attr('preserveAspectRatio', 'none')
+    .attr('xmlns:xlink', 'http://www.w3.org/1999/xlink')
     .attr('xlink:href', (d) => d.issueUserAvatarURL);
 
-    let circles = svg.selectAll('.issue')
+    circles = svg.selectAll('.issue')
     .data(data)
     .enter().append('circle')
     .attr('class', 'issue')
@@ -74,7 +82,7 @@
       console.log('what is d?', d);
     });
 
-    simulation.nodes(data)
+    d3Chart.simulation.nodes(data)
     .on('tick', _ticked);
 
     function _ticked(){
@@ -86,11 +94,14 @@
         return d.y;
       });
     }
+
   };
 
-  d3Chart.updateData = function(){
+  d3Chart.removeStuff = function(){
+    console.log(svg.remove());
+    svg.remove();
+  };
 
-  }
 
 
 })(window);

@@ -5,27 +5,25 @@
   'use strict';
 
 
-  let daysPassed = 7;
-  $('form').submit((e) => {
+  function fetchAllAndMakeGraph(){
+    $('form').submit((e) => {
 
-    e.preventDefault();
-    $('h4').hide();
-    issues.data = [];
+      e.preventDefault();
+      $('h4').hide();
+      issues.data = [];
 
+      // d3Chart.removeStuff();
+      issueView.getInputURL(helpers.parseInputURL);
 
-    issueView.getInputURL(helpers.parseInputURL);
-    issues.getIt(1, d3Chart.makeCircles);
+      issues.getIt(1, (data) => {
+        helpers.setLocalStorage(data, (data) => {
+          d3Chart.makeCircles(data);
+        });
+      });
 
+    });
+  }
 
-
-    // issues.fetchData(1);
-
-    // issues.fetchData(helpers.setLocalStorage, () => {
-    //   helpers.getNumberOfIssues(daysPassed, '.issue-template', issueView.appendData);
-    // }, issueView.badRequest);
-
-  });
-
-
+  fetchAllAndMakeGraph();
 
 })();

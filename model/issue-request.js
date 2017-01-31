@@ -43,9 +43,7 @@
           issues.data.push(issue);
         });
 
-        callback(issues.data)
-        //d3Chart.makeCircles(issues.data);
-
+        callback(issues.data);
       },
       error: function (request, failure, errorThrown) {
         issueView.badRequest();

@@ -27,7 +27,6 @@
 
   issueView.noIssuesAlert = function(data, num){
     if(!data.length && num === 1){
-      console.log('hit here??????');
       $('.issue-list').hide();
       $('.none').show();
       $('h4').not('.none').hide();
@@ -35,7 +34,6 @@
   };
 
   issueView.badRequest = function(){
-    console.log('hit here?');
     $('.issue-list').hide();
     $('.failure').show();
     $('h4').not('.failure').hide();
