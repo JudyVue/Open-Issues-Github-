@@ -10,16 +10,11 @@
 
     e.preventDefault();
     $('h4').hide();
-    $('.issue-list').empty();
     issues.data = [];
 
 
     issueView.getInputURL(helpers.parseInputURL);
-    issues.getIt(1, (data) => {
-      d3Chart.makeCircles(issues.data);
-      console.log(issues.data.length);
-
-    });
+    issues.getIt(1, d3Chart.makeCircles);
 
 
 

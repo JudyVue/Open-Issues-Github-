@@ -5,3 +5,7 @@ h4 {
 circle {
   cursor: pointer;
 }
+
+svg {
+  border: dotted 2px orange;
+}

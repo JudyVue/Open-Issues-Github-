@@ -4,7 +4,7 @@
   // let parsed = require('parse-link-header');
 
   //this comment set up here to turn off eslint warnings about unused vars
-  /*global issues issueView helpers:true*/
+  /*global issues issueView helpers d3Chart:true*/
 
   //set up constructor for easier use of data
   function RepoIssue (opts){
@@ -32,32 +32,26 @@
   issues.repo;
 
   issues.getIt = function(num, callback){
-    if(num < 6){
-      $.ajax({
-        type: 'GET',
-        url: `/github/repos/${issues.owner}/${issues.repo}/issues?page=${num}&per_page=100`,
-        success: function(data, status, request){
-          issueView.noIssuesAlert(data, num);
+    return $.ajax({
+      type: 'GET',
+      url: `/github/repos/${issues.owner}/${issues.repo}/issues?page=${num}&per_page=100`,
+      success: function(data, status, request){
+        issueView.noIssuesAlert(data, num);
 
-          data.forEach((element) => {
-            let issue = new RepoIssue(element);
-            issues.data.push(issue);
-          });
+        data.forEach((element) => {
+          let issue = new RepoIssue(element);
+          issues.data.push(issue);
+        });
 
-          let links = helpers.parseLinkHeader(request);
-          if(links !== null && links.rel !== 'last'){
-            num++;
-            callback && callback(issues.data);
-            issues.getIt(num, helpers.setLocalStorage);
-          }
-          return;
-        },
-        error: function (request, failure, errorThrown) {
-          issueView.badRequest();
-        },
-      });
+        callback(issues.data)
+        //d3Chart.makeCircles(issues.data);
 
-    }
+      },
+      error: function (request, failure, errorThrown) {
+        issueView.badRequest();
+      },
+    });
+
   };
 
   issues.fetchData = function(num){
