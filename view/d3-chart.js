@@ -13,7 +13,6 @@
   module.d3Chart = d3Chart;
 
 
-  let svg;
   //create the svg area on the DOM
   d3Chart.makeSVG = function (){
     d3Chart.svg = d3.select('#chart')
@@ -28,20 +27,9 @@
 
   };
 
-  // let defs;
-  // defs = svg.append('defs');
-
   //scale the circles according to an arbitrarily set scale I set to the number of days the issue was created
 
-  //simulation is a collection of forces about where we want our circles to go and how we want our circles to interact
-  d3Chart.simulation = d3.forceSimulation()
-  .force('x', d3.forceX(width / 2).strength(forceStrength)) //strength between 0-1
-  .force('y', d3.forceY(height / 2).strength(forceStrength))
-  .force('collide', d3.forceCollide((d) => {
-    return d3Chart.radiusScale(d.scale);
-  }));
 
-  d3Chart.simulation.nodes;
 
 
   //setting scale property so that circles can be sized according to if issue was created today, > 7 days ago, or > 7 days ago
@@ -55,9 +43,13 @@
   //make the circles
   d3Chart.makeCircles = function(data){
 
-
-    console.log('what is this?', data[0].repoOwner);
-
+    //simulation is a collection of forces about where we want our circles to go and how we want our circles to interact
+    d3Chart.simulation = d3.forceSimulation()
+    .force('x', d3.forceX(width / 2).strength(forceStrength)) //strength between 0-1
+    .force('y', d3.forceY(height / 2).strength(forceStrength))
+    .force('collide', d3.forceCollide((d) => {
+      return d3Chart.radiusScale(d.scale);
+    }));
 
     let circles;
     d3Chart.defs.selectAll('.user-pattern')
@@ -104,19 +96,8 @@
   };
 
   d3Chart.removeStuff = function(){
-
     d3Chart.svg.remove();
   };
 
-  let form = $('form');
-
-
-  d3Chart.updateData = function(data){
-    form.submit((e) => {
-      console.log('what the fuck is ging on?');
-      e.preventDefault();
-      return d3Chart.makeCircles(data);
-    });
-  };
 
 })(window);
