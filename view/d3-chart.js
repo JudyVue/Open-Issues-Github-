@@ -2,8 +2,8 @@
 
   /*global issues issueView helpers highChart d3:true*/
 
-  let width = 1000;
-  let height = 1000;
+  let width = 800;
+  let height = 800;
   let translateX = 300;
   let translateY = 300;
   let scale;
@@ -12,63 +12,6 @@
 
   let d3Chart = {};
   module.d3Chart = d3Chart;
-
-  //title centers
-  d3Chart.titleCenters = {
-    //issues posted today
-    today: { x: -500, y: 0 },
-    //issues posted 7 days ago
-    week: { x: 0, y: 0 },
-    //issues posted more than 7 days ago
-    old: { x: 0, y: 0 },
-  };
-
-
-  d3Chart.titlePositionX = function(d){
-    if (d.daysAgo === 'today') return d3Chart.titleCenters.today.x;
-    if (d.daysAgo <= daysAgo) return d3Chart.titleCenters.week.x;
-    if (d.daysAgo > daysAgo) return d3Chart.titleCenters.old.x;
-  };
-
-  d3Chart.titlePositionY = function(d){
-    if (d.daysAgo === 'today') return d3Chart.titleCenters.today.y;
-    if (d.daysAgo <= daysAgo) return d3Chart.titleCenters.week.y;
-    if (d.daysAgo > daysAgo) return d3Chart.titleCenters.old.y;
-  };
-
-  d3Chart.splitBubbles = function(){
-    d3Chart.simulation = d3.forceSimulation()
-    .force('x', d3.forceX().strength(forceStrength).x(d3Chart.titlePositionX))
-    .force('y', d3.forceY(height / 2).strength(forceStrength).y(d3Chart.titlePositionY))
-    .force('collide', d3.forceCollide((d) => {
-      return d3Chart.radiusScale(d.scale);
-    }));
-
-    d3Chart.simulation.alpha(1).restart();
-
-  };
-
-
-  // X locations of the titles
-  //TODO: THESE NUMBERS ARE SO HACKY
-  d3Chart.xLocation= {
-    'Issues Posted Today': -200,
-    'Issues Posted Past 7 Days': 0,
-    'Issues Posted More than 7 Days Ago': 250,
-  };
-
-  d3.showTitles = function(){
-    let titles = d3.keys(d3Chart.xLocation);
-    let times = d3Chart.svg.selectAll('.times')
-    .data(titles);
-
-    times.enter().append('text')
-    .attr('class', 'times')
-    .attr('x', (d) => d3Chart.xLocation[d])
-    .attr('y', -250)
-    .attr('text-anchor', 'middle')
-    .text((d) => d);
-  };
 
 
   //create the svg area on the DOM
@@ -81,12 +24,11 @@
     .attr('transform', `translate(${translateX}, ${translateY})`);
 
     d3Chart.defs = d3Chart.svg.append('defs');
+
     d3Chart.radiusScale = d3.scaleSqrt().domain([1, 50]).range([10, 45]);
     // d3.showTitles();
 
   };
-
-
 
   //setting scale property so that circles can be sized according to if issue was created today, <= 7 days ago, or > 7 days ago
   d3Chart.addDataScaleProp = function(data){
@@ -134,14 +76,18 @@
     .force('collide', d3Chart.forceCollide);
 
     d3.select('#today').on('click', () => {
-      d3.forceCenter(width / 2, height /2 );
+      let center = d3.forceCenter(width / 2, height /2 );
 
       d3Chart.simulation
       .force('x', d3Chart.forceXToday)
       .force('y', d3Chart.forceY)
-      .force('collide', d3.forceCollide())
+      .force('collide', d3Chart.forceCollide())
+      // .force('center', center)
       .alphaTarget(0.1) // tells bubbles how quickly they should be moving
       .restart(); //restarts the simulation
+
+      d3Chart.simulation.nodes(data)
+      .on('tick', _ticked);
       console.log('Today button clicked');
     });
 
@@ -173,18 +119,21 @@
       d3Chart.addDataScaleProp(d);
       return d3Chart.radiusScale(d.scale);
     })
+    .attr('data-toggle', 'modal')
+    .attr('data-target', '#long-modal')
     .attr('fill', (d) => `url(#${d.issueUser})`) //makes bg image the user's avatar
     .on('click', (d) => {
+      let viewObj = issueView.render('.issue-template', d);
+      issueView.appendData('.modal-body', viewObj);
       console.log('what is d?', d);
     });
-
-    // d3Chart.splitBubbles();
 
 
 
     //an event where invokes each registered force and essentially causes the bubbles to move around super pretty
     d3Chart.simulation.nodes(data)
     .on('tick', _ticked);
+
 
     function _ticked(){
       circles

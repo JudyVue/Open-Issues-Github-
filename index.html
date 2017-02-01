@@ -8,18 +8,9 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
     <script class="issue-template" type="text/x-handlebars-template">
-      <h1>{{repoName}}</h1>
-    <table>
-      <tr>
-        <td>{{today}} issues opened the last 24 hours</td>
-      </tr>
-      <tr>
-        <td>{{less}} issues opened in the past 7 days ago</td>
-      </tr>
-      <tr>
-        <td>{{more}} issues opened more than 7 days ago</td>
-      </tr>
-    </table>
+
+      <h2>This is a test {{repoOwner}}</h2>
+
     </script>
   </head>
   <body>
@@ -43,12 +34,32 @@
     <button id="old" class="btn btn-info">Issues Posted more than 7 Days Ago</buttton>
   </div>
 
+
+  <!-- Modal -->
+  <div class="modal fade" id="long-modal" tabindex="-1" role="dialog" aria-labelledby="long-modal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="long-modal">Issue</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          ...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <article class="issue-list">
   </article>
 
 
   <section id="chart"></section>
-  <section id="container"></section>
 
   <!-- third party scripts -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
