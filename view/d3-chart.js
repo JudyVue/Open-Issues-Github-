@@ -43,7 +43,8 @@
     });
 
     //if 70 or more issues are older than 7 days, set the scale to 15, else, set the scale to 40
-    return filteredToday.length >= data.length * 0.2 ? scale === 20 : scale === 50;
+  
+    return filteredToday.length >= data.length * 0.2 ? scale = 20 : scale = 50;
 
   };
 
