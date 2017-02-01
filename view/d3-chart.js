@@ -26,7 +26,6 @@
     d3Chart.defs = d3Chart.svg.append('defs');
 
     d3Chart.radiusScale = d3.scaleSqrt().domain([1, 50]).range([10, 45]);
-    // d3.showTitles();
 
   };
 
@@ -76,7 +75,6 @@
     .force('collide', d3Chart.forceCollide);
 
     d3.select('#today').on('click', () => {
-      let center = d3.forceCenter(width / 2, height /2 );
 
       d3Chart.simulation
       .force('x', d3Chart.forceXToday)

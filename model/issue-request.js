@@ -1,7 +1,6 @@
 (function(module){
   'use strict';
 
-  // let parsed = require('parse-link-header');
 
   //this comment set up here to turn off eslint warnings about unused vars
   /*global issues issueView helpers d3Chart:true*/
@@ -15,7 +14,8 @@
     this.issueUserAcctURL = opts.user.html_url;
     this.dateCreated = helpers.parseGitHubDate(opts.created_at),
     this.daysAgo = helpers.numberOfDaysAgo(this.dateCreated);
-    this.repoURL = opts.repository_url,
+    this.repoURL = opts.html_url.split('/issues')[0].trim(),
+    console.log(this.repoURL);
     this.issueURL = opts.html_url,
     this.labels = opts.labels,
     this.title = opts.title,
