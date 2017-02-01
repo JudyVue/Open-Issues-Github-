@@ -2,11 +2,12 @@
 
   /*global issues issueView helpers highChart d3:true*/
 
-  let width = 600;
+  let width = 800;
   let height = 800;
   let translateX = 300;
   let translateY = 300;
-  let scale = 30;
+  let scale;
+  let daysAgo = 7;
   let forceStrength = 0.001;
 
   let d3Chart = {};
@@ -23,13 +24,9 @@
     .attr('transform', `translate(${translateX}, ${translateY})`);
 
     d3Chart.defs = d3Chart.svg.append('defs');
-    d3Chart.radiusScale = d3.scaleSqrt().domain([1, 50]).range([10, 50]);
+    d3Chart.radiusScale = d3.scaleSqrt().domain([1, 50]).range([10, 45]);
 
   };
-
-  //scale the circles according to an arbitrarily set scale I set to the number of days the issue was created
-
-
 
 
   //setting scale property so that circles can be sized according to if issue was created today, > 7 days ago, or > 7 days ago
@@ -39,9 +36,23 @@
     if (data.daysAgo > 7) return data.scale = scale / 5;
   };
 
+  d3Chart.makeCirclesRelativeSize = function(data){
+
+    let filteredToday = data.filter((element) => {
+      return typeof element.daysAgo !== 'number';
+    });
+
+    //if 70 or more issues are older than 7 days, set the scale to 15, else, set the scale to 40
+    return filteredToday.length >= data.length * 0.2 ? scale === 20 : scale === 50;
+
+  };
+
+
 
   //make the circles
   d3Chart.makeCircles = function(data){
+
+    d3Chart.makeCirclesRelativeSize(data);
 
     //simulation is a collection of forces about where we want our circles to go and how we want our circles to interact
     d3Chart.simulation = d3.forceSimulation()
