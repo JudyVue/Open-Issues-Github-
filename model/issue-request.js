@@ -15,7 +15,6 @@
     this.dateCreated = helpers.parseGitHubDate(opts.created_at),
     this.daysAgo = helpers.numberOfDaysAgo(this.dateCreated);
     this.repoURL = helpers.parseRepoURL(opts.html_url),
-    console.log(this.repoURL);
     this.issueURL = opts.html_url,
     this.labels = opts.labels,
     this.title = opts.title,

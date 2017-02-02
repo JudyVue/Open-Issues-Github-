@@ -5,11 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Github Open Issues</title>
     <link rel="stylesheet" href="/css/issues.css">
+    <link rel="stylesheet" href="/css/prism.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
     <script class="issue-template" type="text/x-handlebars-template">
 
-      <h2><a href={{repoURL}} target="_blank">{{repoName}}</h2></a>
+      <h3>This issue is associated with the repo: <a href={{repoURL}} target="_blank">{{repoName}}</a></h3>
+
+      <span>
+        <aside>
+          <h6>{{issueUser}}</h6>
+          <a href={{issueUserAcctURL}} target="_blank"><img src={{issueUserAvatarURL}} class="img-circle img-responsive"></a>
+        </aside>
+      </span>
+
+    <span>
+      <h5>{{title}}</h5>
+    </span>
 
     </script>
   </head>
@@ -66,9 +78,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.4/handlebars.js"></script>
   <script src="https://d3js.org/d3.v4.min.js"></script>
-  <script src="https://code.highcharts.com/highcharts.js"></script>
-  <script src="https://code.highcharts.com/highcharts-more.js"></script>
-  <script src="https://code.highcharts.com/modules/exporting.js"></script>
+
 
   <!-- lib script -->
   <script> window.app = {}; </script>
@@ -78,7 +88,6 @@
   <!-- view script -->
   <script src="/view/issues-view.js"></script>
   <script src="/view/d3-chart.js"></script>
-  <script src="/view/highchart.js"></script>
 
   <!-- main module -->
   <script src="/main.js"></script>

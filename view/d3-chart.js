@@ -80,13 +80,11 @@
       .force('x', d3Chart.forceXToday)
       .force('y', d3Chart.forceY)
       .force('collide', d3Chart.forceCollide())
-      // .force('center', center)
-      .alphaTarget(0.1) // tells bubbles how quickly they should be moving
+      .alphaTarget(0.01) // tells bubbles how quickly they should be moving
       .restart(); //restarts the simulation
 
       d3Chart.simulation.nodes(data)
       .on('tick', _ticked);
-      console.log('Today button clicked');
     });
 
     let circles;
@@ -122,6 +120,7 @@
     .attr('fill', (d) => `url(#${d.issueUser})`) //makes bg image the user's avatar
     .on('click', (d) => {
       let viewObj = issueView.render('.issue-template', d);
+      $('.modal-body').empty();
       issueView.appendData('.modal-body', viewObj);
       console.log('what is d?', d);
     });

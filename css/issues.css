@@ -10,3 +10,15 @@ circle {
 #chart {
   width: 100%;
 }
+
+.img-circle {
+  width: 100%;
+}
+
+aside {
+  width: 20%;
+}
+
+aside > h6 {
+  text-align: center;
+}
