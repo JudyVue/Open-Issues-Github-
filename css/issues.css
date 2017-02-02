@@ -38,3 +38,7 @@ aside > h6 {
 .ui-autocomplete {
   background: white;
 }
+
+.ui-helper-hidden-accessible {
+  display: none;
+}

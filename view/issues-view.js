@@ -12,7 +12,7 @@
   //sets the copy/pasted URL and passes it into the callback, which is #helpers.parseInputURL
   issueView.getInputURL = function(callback){
     let url = $('input').val();
-
+    helpers.saveSearchHistory(url);
     callback(url, null);
   };
 
@@ -28,6 +28,9 @@
   };
 
   issueView.autoComplete = function(){
+    if(localStorage.getItem('issue-search-history')){
+      issueView.searchHistory = JSON.parse(localStorage.getItem('issue-search-history'));
+    }
     $('input').autocomplete({
       source: issueView.searchHistory,
     });
