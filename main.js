@@ -17,9 +17,7 @@
     issueView.getInputURL(helpers.parseInputURL);
 
     issues.getIt(1, (data) => {
-      helpers.setLocalStorage(data, (data) => {
-        d3Chart.makeCircles(data);
-      });
+      d3Chart.makeCircles(data);
     });
   });
 

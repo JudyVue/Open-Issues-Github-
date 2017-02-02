@@ -14,6 +14,8 @@
     this.issueUserAcctURL = opts.user.html_url;
     this.dateCreated = helpers.parseGitHubDate(opts.created_at),
     this.daysAgo = helpers.numberOfDaysAgo(this.dateCreated);
+    this.daysAgoString = this.daysAgo;
+    if(this.daysAgo !== 'today') this.daysAgoString = `${this.daysAgo} days ago`;
     this.repoURL = helpers.parseRepoURL(opts.html_url),
     this.issueURL = opts.html_url,
     this.labels = opts.labels,
@@ -34,7 +36,7 @@
     return $.ajax({
       type: 'GET',
       url: `/github/repos/${issues.owner}/${issues.repo}/issues?page=${num}&per_page=100`,
-      success: function(data, status, request){
+      success: function(data){
         issueView.noIssuesAlert(data, num);
 
         data.forEach((element) => {
@@ -44,7 +46,7 @@
 
         callback(issues.data);
       },
-      error: function (request, failure, errorThrown) {
+      error: function () {
         issueView.badRequest();
       },
     });

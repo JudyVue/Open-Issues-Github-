@@ -5,23 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Github Open Issues</title>
     <link rel="stylesheet" href="/css/issues.css">
-    <link rel="stylesheet" href="/css/prism.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
     <script class="issue-template" type="text/x-handlebars-template">
 
-      <h3>This issue is associated with the repo: <a href={{repoURL}} target="_blank">{{repoName}}</a></h3>
+      <h3><a href={{issueUserAcctURL}} target="_blank">{{issueUser}}</a> posted this issue on the <a href={{repoURL}} target="_blank">{{repoName}}</a> repo {{daysAgoString}}.</h3>
 
-      <span>
+      <span id="user">
         <aside>
-          <h6>{{issueUser}}</h6>
           <a href={{issueUserAcctURL}} target="_blank"><img src={{issueUserAvatarURL}} class="img-circle img-responsive"></a>
         </aside>
+        <span id="issue-body">
+          <h5><a href={{issueURL}} target="_blank">{{title}}</h5></a>
+          <p>{{body}}</p>
+        </span>
       </span>
 
-    <span>
-      <h5>{{title}}</h5>
-    </span>
 
     </script>
   </head>
