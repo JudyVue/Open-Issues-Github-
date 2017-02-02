@@ -34,7 +34,6 @@
     $('input').autocomplete({
       source: issueView.searchHistory,
     });
-    console.log(issueView.searchHistory);
   };
 
 

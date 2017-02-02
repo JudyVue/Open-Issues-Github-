@@ -6,7 +6,6 @@ circle {
   cursor: pointer;
 }
 
-
 #chart {
   width: 100%;
 }
@@ -41,4 +40,8 @@ aside > h6 {
 
 .ui-helper-hidden-accessible {
   display: none;
+}
+
+ul.ui-autocomplete {
+  list-style: none;
 }
