@@ -34,3 +34,7 @@ aside > h6 {
   font-size: 80%;
   word-wrap: break-word;
 }
+
+.ui-autocomplete {
+  background: white;
+}

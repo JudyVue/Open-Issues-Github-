@@ -4,16 +4,19 @@
   /*global issues issueView helpers highChart d3Chart:true*/
   'use strict';
 
+  issueView.autoComplete();
+
   $('form').submit((e) => {
 
     e.preventDefault();
+
     $('h4').hide();
     issues.data = [];
 
     $('svg').remove();
     d3Chart.makeSVG();
 
-    // d3Chart.removeStuff();
+    helpers.saveSearchHistory($('input').val());
     issueView.getInputURL(helpers.parseInputURL);
 
     issues.getIt(1, (data) => {

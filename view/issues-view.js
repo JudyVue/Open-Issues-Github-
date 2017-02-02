@@ -7,11 +7,13 @@
   let issueView = {};
   module.issueView = issueView;
 
+  issueView.searchHistory = [];
+
   //sets the copy/pasted URL and passes it into the callback, which is #helpers.parseInputURL
   issueView.getInputURL = function(callback){
     let url = $('input').val();
-    callback(url, null);
 
+    callback(url, null);
   };
 
   //renders an object with Handlebars
@@ -24,6 +26,14 @@
   issueView.appendData = function(section, compiledObj){
     $(section).append(compiledObj);
   };
+
+  issueView.autoComplete = function(){
+    $('input').autocomplete({
+      source: issueView.searchHistory,
+    });
+    console.log(issueView.searchHistory);
+  };
+
 
   issueView.noIssuesAlert = function(data, num){
     if(!data.length && num === 1){

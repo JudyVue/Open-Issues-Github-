@@ -25,6 +25,7 @@
 
     d3Chart.defs = d3Chart.svg.append('defs');
 
+    //sets radius of bubbles
     d3Chart.radiusScale = d3.scaleSqrt().domain([1, 50]).range([10, 45]);
 
   };
@@ -36,18 +37,13 @@
     if (data.daysAgo > daysAgo) return data.scale = scale / 5;
   };
 
+  //if 20 issues or more were posted today, set the scale to 20 so that max radius for a 'today' circle is 20, else, set the scale to 50. This makes it so that repos with many 'today' issues do not have oversized bubbles that go beyond SVG area and bubbles are relatively scaled per how many 'today' circles exist
   d3Chart.makeCirclesRelativeSize = function(data){
-
     let filteredToday = data.filter((element) => {
       return typeof element.daysAgo !== 'number';
     });
-
-    //if 70 or more issues are older than 7 days, set the scale to 15, else, set the scale to 40
-
     return filteredToday.length >= data.length * 0.2 ? scale = 20 : scale = 50;
-
   };
-
 
 
   //make the circles
@@ -55,7 +51,7 @@
 
     d3Chart.makeCirclesRelativeSize(data);
 
-    //simulation is a collection of forces about where we want our circles to go and how we want our circles to interact
+
     d3Chart.forceXToday = d3.forceX((d) => {
       if(d.daysAgo === 'today') return 1000;
       return 200000;
@@ -69,9 +65,10 @@
       return d3Chart.radiusScale(d.scale); //anti-collide force is equal to radius of each circle
     });
 
+  //simulation is a collection of forces about where we want our circles to go and how we want our circles to interact
     d3Chart.simulation = d3.forceSimulation()
     .force('x', d3.forceX(width / 2).strength(forceStrength))
-    .force('y', d3.forceY(height / 2).strength(forceStrength)) //height / 2 forces things to middle of page
+    .force('y', d3Chart.forceY) //height / 2 forces things to middle of page
     .force('collide', d3Chart.forceCollide);
 
     d3.select('#today').on('click', () => {
@@ -143,10 +140,5 @@
     }
 
   };
-
-  d3Chart.removeStuff = function(){
-    d3Chart.svg.remove();
-  };
-
 
 })(window);
