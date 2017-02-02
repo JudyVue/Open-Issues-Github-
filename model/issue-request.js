@@ -21,7 +21,8 @@
     this.issueURL = opts.html_url,
     this.labels = opts.labels,
     this.title = opts.title,
-    this.body = opts.body,
+    this.body = opts.body;
+    if (this.body === '') this.body = 'This user did not enter any text for this issue.';
     this.id = opts.id;
   }
 

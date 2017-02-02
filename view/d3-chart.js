@@ -119,7 +119,6 @@
     .attr('data-target', '#long-modal')
     .attr('fill', (d) => `url(#${d.issueUser})`) //makes bg image the user's avatar
     .on('click', (d) => {
-      // if (d.body === ' ') return 'This user did not enter issue text.';
       let viewObj = issueView.render('.issue-template', d);
       $('.modal-body').empty();
       issueView.appendData('.modal-body', viewObj);
