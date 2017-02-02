@@ -3,12 +3,15 @@
   /*global issues issueView helpers highChart d3:true*/
 
   let width = 800;
-  let height = 800;
-  let translateX = 300;
-  let translateY = 300;
+  let height = 1000;
+  let translateX = 50;
+  let translateY = 30;
   let scale;
   let daysAgo = 7;
   let forceStrength = 0.001;
+  let speed = 0.5;
+  let random = Math.random() * (70-15) + 15;
+
 
   let d3Chart = {};
   module.d3Chart = d3Chart;
@@ -45,31 +48,36 @@
     return filteredToday.length >= data.length * 0.2 ? scale = 20 : scale = 50;
   };
 
-
   //make the circles
   d3Chart.makeCircles = function(data){
-
     d3Chart.makeCirclesRelativeSize(data);
-
-
     d3Chart.forceXToday = d3.forceX((d) => {
       if(d.daysAgo === 'today') return 1000;
       return 200000;
+    }).strength(forceStrength); //strength between 0-1
+
+    d3Chart.forceYToday = d3.forceY((d) => {
+      if(d.daysAgo === 'today') return 1000;
     }).strength(forceStrength); //strength between 0-1
 
     d3Chart.forceY = d3.forceY(() => {
       return height / 2;
     }).strength(forceStrength);
 
+    d3Chart.forceX = d3.forceX(() => {
+      return width / 2;
+    }).strength(forceStrength);
+
     d3Chart.forceCollide = d3.forceCollide((d) => { //d3.forceCollide prevents circles from overlapping
-      return d3Chart.radiusScale(d.scale); //anti-collide force is equal to radius of each circle
+      return d3Chart.radiusScale(d.scale) + 5; //anti-collide force is equal to radius of each circle
     });
 
   //simulation is a collection of forces about where we want our circles to go and how we want our circles to interact
     d3Chart.simulation = d3.forceSimulation()
-    .force('x', d3.forceX(width / 2).strength(forceStrength))
+    .force('x', d3Chart.forceX)
     .force('y', d3Chart.forceY) //height / 2 forces things to middle of page
     .force('collide', d3Chart.forceCollide);
+
 
     d3.select('#today').on('click', () => {
 
@@ -77,7 +85,7 @@
       .force('x', d3Chart.forceXToday)
       .force('y', d3Chart.forceY)
       .force('collide', d3Chart.forceCollide())
-      .alphaTarget(0.01) // tells bubbles how quickly they should be moving
+      .alphaTarget(speed) // tells bubbles how quickly they should be moving
       .restart(); //restarts the simulation
 
       d3Chart.simulation.nodes(data)
@@ -85,8 +93,6 @@
     });
 
     let circles;
-
-
     //defs are another tag element that holds the actual circles
     d3Chart.defs.selectAll('.user-pattern')
     .data(data)
@@ -114,8 +120,10 @@
     })
     .attr('data-toggle', 'modal')
     .attr('data-target', '#long-modal')
-    .attr('fill', (d) => `url(#${d.issueUser})`) //makes bg image the user's avatar
+    // .attr('transform', (d) =>  `translate(${d.x}, ${d.y})`)
+    .attr('fill', (d) => `url(#${d.issueUser})`)//makes bg image the user's avatar
     .on('click', (d) => {
+      console.log(`${d.x} and ${d.y}`);
       let viewObj = issueView.render('.issue-template', d);
       $('.modal-body').empty();
       issueView.appendData('.modal-body', viewObj);
@@ -132,10 +140,10 @@
     function _ticked(){
       circles
       .attr('cx', (d) => {
-        return d.x;
+        return d.x = Math.max(random, Math.min(width - 100, d.x));
       })
       .attr('cy', (d) => {
-        return d.y;
+        return d.y = Math.max(random, Math.min(height - 15, d.y));
       });
     }
 
