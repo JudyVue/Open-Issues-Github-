@@ -15,7 +15,8 @@
     this.dateCreated = helpers.parseGitHubDate(opts.created_at),
     this.daysAgo = helpers.numberOfDaysAgo(this.dateCreated);
     this.daysAgoString = this.daysAgo;
-    if(this.daysAgo !== 'today') this.daysAgoString = `${this.daysAgo} days ago`;
+    if(this.daysAgo !== 'today' && this.daysAgo !== 1) this.daysAgoString = `${this.daysAgo} days ago`;
+    if(this.daysAgo !== 'today' && this.daysAgo === 1) this.daysAgoString = `${this.daysAgo} day ago`;
     this.repoURL = helpers.parseRepoURL(opts.html_url),
     this.issueURL = opts.html_url,
     this.labels = opts.labels,
