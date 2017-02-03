@@ -9,8 +9,10 @@
   let scale;
   let daysAgo = 7;
   let forceStrength = 0.001;
-  let speed = 0.5;
+  let speed = 2;
   let random = Math.random() * (70-15) + 15;
+  let twentyTodays = 30;
+  let moreThanTwentyTodays = 50;
 
 
   let d3Chart = {};
@@ -45,23 +47,25 @@
     let filteredToday = data.filter((element) => {
       return typeof element.daysAgo !== 'number';
     });
-    return filteredToday.length >= data.length * 0.2 ? scale = 20 : scale = 50;
+    return filteredToday.length >= data.length * 0.2 ? scale = twentyTodays : scale = moreThanTwentyTodays;
   };
 
   //make the circles
   d3Chart.makeCircles = function(data){
     d3Chart.makeCirclesRelativeSize(data);
+
+
     d3Chart.forceXToday = d3.forceX((d) => {
-      if(d.daysAgo === 'today') return 1000;
+      if(d.daysAgo === 'today') return -1000;
       return 200000;
     }).strength(forceStrength); //strength between 0-1
 
     d3Chart.forceYToday = d3.forceY((d) => {
-      if(d.daysAgo === 'today') return 1000;
-    }).strength(forceStrength); //strength between 0-1
+      if(d.daysAgo === 'today') return 10;
+    }).strength(0); //strength between 0-1
 
     d3Chart.forceY = d3.forceY(() => {
-      return height / 2;
+      return height * 0.1;
     }).strength(forceStrength);
 
     d3Chart.forceX = d3.forceX(() => {
@@ -69,27 +73,67 @@
     }).strength(forceStrength);
 
     d3Chart.forceCollide = d3.forceCollide((d) => { //d3.forceCollide prevents circles from overlapping
-      return d3Chart.radiusScale(d.scale) + 5; //anti-collide force is equal to radius of each circle
+      return d3Chart.radiusScale(d.scale) + 3; //anti-collide force is equal to radius of each circle
     });
 
   //simulation is a collection of forces about where we want our circles to go and how we want our circles to interact
     d3Chart.simulation = d3.forceSimulation()
     .force('x', d3Chart.forceX)
     .force('y', d3Chart.forceY) //height / 2 forces things to middle of page
-    .force('collide', d3Chart.forceCollide);
+    .force('collide', d3Chart.forceCollide)
+    .alphaTarget(speed)
+    .restart();
 
 
+    //clicking the today button
     d3.select('#today').on('click', () => {
-
       d3Chart.simulation
       .force('x', d3Chart.forceXToday)
       .force('y', d3Chart.forceY)
-      .force('collide', d3Chart.forceCollide())
+      .force('collide', d3Chart.forceCollide)
       .alphaTarget(speed) // tells bubbles how quickly they should be moving
       .restart(); //restarts the simulation
+    });
 
-      d3Chart.simulation.nodes(data)
-      .on('tick', _ticked);
+
+    d3Chart.forceXWeek = d3.forceX((d) => {
+      if(d.daysAgo <= 7) return width * 0.1;
+      return 200000;
+    }).strength(forceStrength); //strength between 0-1
+
+
+    d3Chart.forceXOld = d3.forceX((d) => {
+      if(d.daysAgo > 7) return width / 2;
+      return 200000;
+    }).strength(forceStrength); //strength between 0-1
+
+
+    //clicking week button
+    d3.select('#week').on('click', () => {
+      d3Chart.simulation
+      .force('x', d3Chart.forceXWeek)
+      .force('y', d3Chart.forceY)
+      .force('collide', d3Chart.forceCollide)
+      .alphaTarget(speed) // tells bubbles how quickly they should be moving
+      .restart(); //restarts the simulation
+    });
+
+    //clicking >7 days button
+    d3.select('#old').on('click', () => {
+      d3Chart.simulation
+      .force('x', d3Chart.forceXOld)
+      .force('y', d3Chart.forceY)
+      .force('collide', d3Chart.forceCollide)
+      .alphaTarget(speed) // tells bubbles how quickly they should be moving
+      .restart(); //restarts the simulation
+    });
+
+    //clicking the combine button
+    d3.select('#combine').on('click', () => {
+      d3Chart.simulation
+      .force('x', d3Chart.forceX)
+      .alphaTarget(speed) // tells bubbles how quickly they should be moving
+      .restart(); //restarts the simulation
     });
 
     let circles;
@@ -130,8 +174,6 @@
       console.log('what is d?', d);
     });
 
-
-
     //an event where invokes each registered force and essentially causes the bubbles to move around super pretty
     d3Chart.simulation.nodes(data)
     .on('tick', _ticked);
@@ -143,6 +185,7 @@
         return d.x = Math.max(random, Math.min(width - 100, d.x));
       })
       .attr('cy', (d) => {
+        // return d.y;
         return d.y = Math.max(random, Math.min(height - 15, d.y));
       });
     }
