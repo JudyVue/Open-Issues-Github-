@@ -11,7 +11,7 @@
   let forceStrength = 0.001;
   let speed = 2;
   let random = Math.random() * (70-15) + 15;
-  let twentyTodays = 30;
+  let twentyTodays = 20;
   let moreThanTwentyTodays = 50;
 
 
@@ -57,7 +57,6 @@
 
     d3Chart.forceXToday = d3.forceX((d) => {
       if(d.daysAgo === 'today') return -1000;
-      return 200000;
     }).strength(forceStrength); //strength between 0-1
 
     d3Chart.forceYToday = d3.forceY((d) => {
@@ -73,7 +72,7 @@
     }).strength(forceStrength);
 
     d3Chart.forceCollide = d3.forceCollide((d) => { //d3.forceCollide prevents circles from overlapping
-      return d3Chart.radiusScale(d.scale) + 3; //anti-collide force is equal to radius of each circle
+      return d3Chart.radiusScale(d.scale) + 2; //anti-collide force is equal to radius of each circle
     });
 
   //simulation is a collection of forces about where we want our circles to go and how we want our circles to interact
@@ -81,12 +80,23 @@
     .force('x', d3Chart.forceX)
     .force('y', d3Chart.forceY) //height / 2 forces things to middle of page
     .force('collide', d3Chart.forceCollide)
-    .alphaTarget(speed)
-    .restart();
+    // .alphaTarget(speed)
+    // .restart();
 
+
+    d3Chart.forceXWeek = d3.forceX((d) => {
+      if(d.daysAgo <= 7) return width * 0.1;
+    }).strength(forceStrength); //strength between 0-1
+
+
+    d3Chart.forceXOld = d3.forceX((d) => {
+      if(d.daysAgo > 7) return width / 2;
+    }).strength(forceStrength); //strength between 0-1
 
     //clicking the today button
     d3.select('#today').on('click', () => {
+      $('.day').show();
+      $('circle').not('.day').hide();
       d3Chart.simulation
       .force('x', d3Chart.forceXToday)
       .force('y', d3Chart.forceY)
@@ -95,21 +105,11 @@
       .restart(); //restarts the simulation
     });
 
-
-    d3Chart.forceXWeek = d3.forceX((d) => {
-      if(d.daysAgo <= 7) return width * 0.1;
-      return 200000;
-    }).strength(forceStrength); //strength between 0-1
-
-
-    d3Chart.forceXOld = d3.forceX((d) => {
-      if(d.daysAgo > 7) return width / 2;
-      return 200000;
-    }).strength(forceStrength); //strength between 0-1
-
-
     //clicking week button
     d3.select('#week').on('click', () => {
+      $('.one-week').show();
+      $('circle').not('.one-week').hide();
+
       d3Chart.simulation
       .force('x', d3Chart.forceXWeek)
       .force('y', d3Chart.forceY)
@@ -120,6 +120,8 @@
 
     //clicking >7 days button
     d3.select('#old').on('click', () => {
+      $('.older').show();
+      $('circle').not('.older').hide();
       d3Chart.simulation
       .force('x', d3Chart.forceXOld)
       .force('y', d3Chart.forceY)
@@ -130,8 +132,10 @@
 
     //clicking the combine button
     d3.select('#combine').on('click', () => {
+      $('circle').show();
       d3Chart.simulation
       .force('x', d3Chart.forceX)
+      .force('collide', d3Chart.forceCollide)
       .alphaTarget(speed) // tells bubbles how quickly they should be moving
       .restart(); //restarts the simulation
     });
@@ -164,20 +168,22 @@
     })
     .attr('data-toggle', 'modal')
     .attr('data-target', '#long-modal')
-    // .attr('transform', (d) =>  `translate(${d.x}, ${d.y})`)
+    .attr('class', (d) => {
+      if (d.daysAgo === 'today') return 'day';
+      if (d.daysAgo <= daysAgo) return 'one-week';
+      if (d.daysAgo > daysAgo) return 'older';
+    })
     .attr('fill', (d) => `url(#${d.issueUser})`)//makes bg image the user's avatar
     .on('click', (d) => {
       console.log(`${d.x} and ${d.y}`);
       let viewObj = issueView.render('.issue-template', d);
       $('.modal-body').empty();
       issueView.appendData('.modal-body', viewObj);
-      console.log('what is d?', d);
     });
 
     //an event where invokes each registered force and essentially causes the bubbles to move around super pretty
     d3Chart.simulation.nodes(data)
     .on('tick', _ticked);
-
 
     function _ticked(){
       circles
