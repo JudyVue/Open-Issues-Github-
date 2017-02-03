@@ -9,7 +9,7 @@
   let scale;
   let daysAgo = 7;
   let forceStrength = 0.001;
-  let speed = 2;
+  let speed = 1;
   let random = Math.random() * (70-15) + 15;
   let twentyTodays = 20;
   let moreThanTwentyTodays = 50;
@@ -59,12 +59,9 @@
       if(d.daysAgo === 'today') return -1000;
     }).strength(forceStrength); //strength between 0-1
 
-    d3Chart.forceYToday = d3.forceY((d) => {
-      if(d.daysAgo === 'today') return 10;
-    }).strength(0); //strength between 0-1
 
     d3Chart.forceY = d3.forceY(() => {
-      return height * 0.1;
+      return height / 2;
     }).strength(forceStrength);
 
     d3Chart.forceX = d3.forceX(() => {
@@ -79,18 +76,22 @@
     d3Chart.simulation = d3.forceSimulation()
     .force('x', d3Chart.forceX)
     .force('y', d3Chart.forceY) //height / 2 forces things to middle of page
-    .force('collide', d3Chart.forceCollide)
-    // .alphaTarget(speed)
-    // .restart();
-
+    .force('collide', d3Chart.forceCollide);
+    
+    d3Chart.forceYToday = d3.forceY((d) => {
+      if(d.daysAgo === 'today') return 10;
+      return 200000;
+    }).strength(0); //strength between 0-1
 
     d3Chart.forceXWeek = d3.forceX((d) => {
       if(d.daysAgo <= 7) return width * 0.1;
+      return 200000;
     }).strength(forceStrength); //strength between 0-1
 
 
     d3Chart.forceXOld = d3.forceX((d) => {
       if(d.daysAgo > 7) return width / 2;
+      return 200000;
     }).strength(forceStrength); //strength between 0-1
 
     //clicking the today button
