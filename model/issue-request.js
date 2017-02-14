@@ -6,6 +6,7 @@
   /*global issues issueView helpers d3Chart:true*/
 
   //set up constructor for easier use of data
+
   function RepoIssue (opts){
     this.repoOwner = opts.html_url.split('/')[3];
     this.repoName = opts.html_url.split('/')[4];
@@ -26,13 +27,15 @@
     this.id = opts.id;
   }
 
-  //set this as property on window
   let issues = {};
   module.issues = issues;
 
   issues.data = [];
   issues.owner;
   issues.repo;
+  issues.pageNumber = 1;
+  issues.perPage = 100;
+
 
   issues.getIt = function(num, callback){
     return $.ajax({

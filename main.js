@@ -7,10 +7,10 @@
 
   issueView.autoComplete();
 
-
   $('form').submit((e) => {
 
     e.preventDefault();
+
 
     $('h4').hide();
     issues.data = [];
