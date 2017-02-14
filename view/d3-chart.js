@@ -5,7 +5,7 @@
   let width = 800;
   let height = 1000;
   let translateX = 50;
-  let translateY = 30;
+  let translateY = 50;
   let scale;
   let daysAgo = 7;
   let forceStrength = 0.001;
@@ -77,21 +77,21 @@
     .force('x', d3Chart.forceX)
     .force('y', d3Chart.forceY) //height / 2 forces things to middle of page
     .force('collide', d3Chart.forceCollide);
-    
+
     d3Chart.forceYToday = d3.forceY((d) => {
       if(d.daysAgo === 'today') return 10;
-      return 200000;
-    }).strength(0); //strength between 0-1
+      //return 200000;
+    }).strength(forceStrength); //strength between 0-1
 
     d3Chart.forceXWeek = d3.forceX((d) => {
       if(d.daysAgo <= 7) return width * 0.1;
-      return 200000;
+      //return 200000;
     }).strength(forceStrength); //strength between 0-1
 
 
     d3Chart.forceXOld = d3.forceX((d) => {
       if(d.daysAgo > 7) return width / 2;
-      return 200000;
+      //return 200000;
     }).strength(forceStrength); //strength between 0-1
 
     //clicking the today button
@@ -102,8 +102,8 @@
       .force('x', d3Chart.forceXToday)
       .force('y', d3Chart.forceY)
       .force('collide', d3Chart.forceCollide)
-      .alphaTarget(speed) // tells bubbles how quickly they should be moving
-      .restart(); //restarts the simulation
+      .alphaTarget(speed); // tells bubbles how quickly they should be moving
+      // .restart(); //restarts the simulation
     });
 
     //clicking week button
@@ -133,7 +133,8 @@
 
     //clicking the combine button
     d3.select('#combine').on('click', () => {
-      $('circle').show();
+      d3Chart.svg.selectAll('.issue');
+      //$('circle').show();
       d3Chart.simulation
       .force('x', d3Chart.forceX)
       .force('collide', d3Chart.forceCollide)
@@ -176,7 +177,6 @@
     })
     .attr('fill', (d) => `url(#${d.issueUser})`)//makes bg image the user's avatar
     .on('click', (d) => {
-      console.log(`${d.x} and ${d.y}`);
       let viewObj = issueView.render('.issue-template', d);
       $('.modal-body').empty();
       issueView.appendData('.modal-body', viewObj);
@@ -192,8 +192,8 @@
         return d.x = Math.max(random, Math.min(width - 100, d.x));
       })
       .attr('cy', (d) => {
-        // return d.y;
-        return d.y = Math.max(random, Math.min(height - 15, d.y));
+        return d.y;
+        // return d.y = Math.max(random, Math.min(height - 15, d.y));
       });
     }
 
